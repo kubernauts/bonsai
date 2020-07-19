@@ -1,6 +1,6 @@
 # Welcome to Hello Chartmuseum for Private Helm Repos on Bonsai!
 
-This short how to porvides the needed steps to deploy a private helm repo with Chatrmuseum on Kubernetes. We are using our k3s implementation Bonsai on multipass VMs, this guide should work on any k8s cluster like minikube, etc. with minor adaptions though.
+This short how to porvides the needed steps to deploy a private helm repo with Chatrmuseum on Kubernetes. We are using our k3s implementation Bonsai on multipass VMs, this guide should work on any k8s cluster like minikube, etc. with minor adaptions though. The helm chart used here is a sample node.js hello world application packaged as a container with a Helm Chart from the [open-toolchain project](https://github.com/open-toolchain/hello-helm).
 
 ## Prerequisites
 
@@ -38,6 +38,7 @@ kn chartmuseum
 ### Deploy Chartmuseum
 
 ```
+cd addons/chartmuseum/hello-helm
 helm install chartmuseum stable/chartmuseum (helm3)
 helm install stable/chartmuseum (helm2)
 ```
@@ -49,13 +50,50 @@ export POD_NAME=$(kubectl get pods --namespace chartmuseum -l "app=chartmuseum" 
 kubectl port-forward $POD_NAME 8080:8080 --namespace chartmuseum
 ```
 
-In a second terminal run the following commands to add the chartmuseum repo and install the helm-push plugin and packege the sample hello chart and pusht it to chartmuseum:
+Browse to:
+
+http://127.0.0.1:8080
+
+If you see the "Welcome to ChartMuseum!" then you're fine.
+
+## Build the image and push to your private or public registry
+
+Please substitute kubernautslabs with your docker registry name (we are using a private repo here):
 
 ```
+docker build -t kubernautslabs/hello-helm .
+docker push kubernautslabs/hello-helm:latest
+```
+
+Adapt the image path in the values.yaml and change this part:
+
+```
+image:
+  repository: kubernautslabs/hello-helm
+  tag: latest
+```
+
+to:
+
+```
+image:
+  repository: <your docker registry repo>/hello-helm
+  tag: latest
+```
+
+In a second terminal run the following commands to add the chartmuseum repo and install the helm-push plugin and package the sample hello chart and push it to chartmuseum:
+
+```
+# add the repo
 helm repo add chartmuseum http://localhost:8080
+# install helm push plugin:
 helm plugin install https://github.com/chartmuseum/helm-push.git
+# build the package:
 cd addons/chartmuseum/hello-helm/chart
 helm package hello/
+# the helm package name will be hello-1.tgz
+ls -l hello-1.tgz
+# push the package to chartmuseum
 helm push hello-1.tgz chartmuseum
 ```
 
@@ -67,7 +105,7 @@ Error: 404: not found
 Error: plugin "push" exited with error
 ```
 
-### We love problems :-)
+### We solve problems :-)
 
 Well, it doesn't work :-(
 
@@ -103,12 +141,13 @@ If you're going to push your image to a private docker registry, you nee to crea
 
 kubectl create secret docker-registry regsecret --docker-server=https://index.docker.io/v1/  --docker-username=<your dockerhub username> --docker-password=xxxxxxxx --docker-email=xxxxxxxx
 
-### Deploy the Chart
+### Install the Chart
 
-To install a chart, this is the basic command:
+To install a chart, this is the basic command used:
 
 ```
-helm install <chartmuseum-repo-name>/<chart-name> --name <release-name>
+helm install <chartmuseum-repo-name>/<chart-name> --name <release-name> (helm2)
+helm install <release-name> <chartmuseum-repo-name>/<chart-name>
 ```
 
 In some cases you need to update your helm repos and install the chart:
@@ -118,6 +157,20 @@ helm repo update
 helm install chartmuseum/hello --name hello (helm2)
 helm install hello chartmuseum/hello (helm3)
 ```
+
+Now that our chart is deployed, we can call the app:
+
+First provide the following entry in your /etc/hosts (adapt the IP adress to the traefik LB IP) like this:
+
+```
+192.168.64.26 chart-example.local
+```
+
+### Harvest your work
+
+curl http://chart-example.local/
+
+Welcome to Hello Chartmuseum for Private Helm Repos on Bonsai!
 
 ### List or delete the Chart
 
@@ -135,6 +188,14 @@ helm ls
 helm delete --purge <chatmuseum release name>
 helm plugin remove push
 ```
+
+## Try it on Kubernautic
+
+If you'd like to try this guide on our free Kubernetes offering Kubernautic, feel free to get startet here:
+
+https://kubernauts.sh
+
+N.B. you need most probably to change couple of things like service type and build the image with no root privileges.
 
 ## Related Links and Resources
 

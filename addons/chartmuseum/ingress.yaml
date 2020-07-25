@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: chartmuseum-ingress
+spec:
+  rules:
+  - host: chartmuseum.local
+    http:
+      paths:
+      - backend:
+          serviceName: chartmuseum-chartmuseum
+          servicePort: 8080

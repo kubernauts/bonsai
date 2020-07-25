@@ -25,7 +25,7 @@ if (process.env.PORT) {
 
 var app = express();
 app.get('/', function (req, res) {
-  res.send('Welcome to Hello Chartmuseum for Private Helm Repos on Bonsai!');
+  res.send('Welcome to Hello Chartmuseum for Private Helm Repos on K3s Bonsai!');
 });
 
 app.listen(PORT);

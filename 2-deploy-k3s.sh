@@ -12,7 +12,7 @@ multipass exec k3s-master -- /bin/bash -c "curl -sfL https://get.k3s.io | sh -" 
 K3S_NODEIP_MASTER="https://$(multipass info k3s-master | grep "IPv4" | awk -F' ' '{print $2}'):6443"
 # Get the TOKEN from the master node
 K3S_TOKEN="$(multipass exec k3s-master -- /bin/bash -c "sudo cat /var/lib/rancher/k3s/server/node-token")"
-# Deploy k3s on the worker nodes node2,node3,node4
+# Deploy k3s on the worker nodes
 
 WORKERS=$(echo $(multipass list | grep worker | awk '{print $1}'))
 for WORKER in ${WORKERS}; 
@@ -31,9 +31,11 @@ kubectl taint node k3s-master node-role.kubernetes.io/master=effect:NoSchedule
 
 for WORKER in ${WORKERS}; do kubectl label node ${WORKER} node-role.kubernetes.io/node=  > /dev/null && echo -e "[${LB}Info${NC}] label ${WORKER} with node"; done
 
+sleep 10
+
 kubectl get nodes
 
 echo "are the nodes ready?"
 echo "if you face problems, please open an issue on github"
-echo -e "[${GREEN}FINISHED${NC}]"
+echo -e "[${GREEN}Now deploying MetalLB LoadBalancer${NC}]"
 echo "############################################################################"

@@ -1,4 +1,4 @@
-
+#!/bin/bash
 
 nodeCount=2
 read -p  "How many worker nodes do you want?(default:2) promt with [ENTER]:" inputNode

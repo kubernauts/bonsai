@@ -36,9 +36,9 @@ kn chartmuseum
 
 ### Deploy Chartmuseum
 
-We deploy chartmuseum with custom values and create an ingress with the chartmuseum.local doamin name.
+We deploy chartmuseum with custom values and create an ingress with the chartmuseum.local domain name.
 
-Please set set the follwoing host entries in your /etc/hosts file:
+Please set the following host entries in your /etc/hosts file:
 
 ```
 # adapt the IP below with the external IP of the traefik LB (run `kubectl get svc -A` and find the external IP)
@@ -135,7 +135,7 @@ helm repo update
 helm install hello chartmuseum/hello
 ```
 
-We should get a similiar output like this:
+We should get a similar output like this:
 
 ```
 NAME: hello
@@ -179,4 +179,6 @@ https://github.com/chartmuseum/helm-push/issues/13
 https://chartmuseum.com/docs/#helm-chart
 
 https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+
+https://chartcenter.io/
 

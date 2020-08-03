@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: registry-ui-deployment
+  labels:
+    app: registry-ui
+  namespace: kube-system
+spec:
+  replicas: 1  
+  selector:
+    matchLabels:
+      app: registry-ui
+  template:
+    metadata:
+      labels:
+        app: registry-ui
+    spec:
+      containers:
+      - name: reg-ui
+        image: joxit/docker-registry-ui:static
+        env:
+        - name: REGISTRY_URL
+          value: "http://private-docker-registry:5000"
+        - name: delete_images
+          value: "true"
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: registry-ui
+  labels:
+    app: registry-ui
+  namespace: kube-system
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 31000
+    protocol: TCP
+  selector:
+    app: registry-ui

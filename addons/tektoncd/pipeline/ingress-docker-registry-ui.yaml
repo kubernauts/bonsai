@@ -1,0 +1,13 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: registry-ui
+  namespace: kube-system
+spec:
+  rules:
+  - host: registry-ui.local
+    http:
+      paths:
+      - backend:
+          serviceName: registry-ui
+          servicePort: 80 

@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: pihole
+  name: pihole
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pihole
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: pihole
+    spec:
+      containers:
+      - env:
+        - name: TZ
+          value: Germany/Berlin
+        - name: WEBPASSWORD
+          value: "pihole"
+        - name: ServerIP
+          value: localhost #change this to the external domain or ip
+        - name: dns
+          value: 1.1.1.1
+        image: pihole/pihole:latest
+        imagePullPolicy: IfNotPresent
+        name: pihole
+        ports:
+        - containerPort: 53
+        - containerPort: 53
+          protocol: UDP
+        - containerPort: 67
+          protocol: UDP
+        - containerPort: 80
+        - containerPort: 443
+        resources: 
+          limits:
+            cpu: 200m
+            memory: 200Mi
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+        volumeMounts:
+        - mountPath: /etc/pihole/
+          name: pihole-config
+        - mountPath: /etc/dnsmasq.d/
+          name: pihole-dnscfg
+      restartPolicy: Always
+      volumes:
+      - name: pihole-config
+        persistentVolumeClaim:
+          claimName: pihole-config
+      - name: pihole-dnscfg
+        persistentVolumeClaim:
+          claimName: pihole-dnscfg

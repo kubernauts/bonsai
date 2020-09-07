@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: pihole
+  name: pihole-udp
+spec:
+  ports:
+  - name: 53-udp
+    port: 53
+    protocol: UDP
+    targetPort: 53
+  - name: "67"
+    port: 67
+    protocol: UDP
+    targetPort: 67
+  selector:
+    app: pihole
+  type: LoadBalancer

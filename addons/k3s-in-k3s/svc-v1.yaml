@@ -1,15 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    meta.helm.sh/release-name: v1
-    meta.helm.sh/release-namespace: v1
   labels:
     app: virtualcluster
-    app.kubernetes.io/managed-by: Helm
   name: v1
   namespace: v1
-  # clusterIP: 10.43.95.254
 spec:
   ports:
   - name: virtualcluster

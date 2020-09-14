@@ -1,9 +1,6 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  annotations:
-    meta.helm.sh/release-name: v1
-    meta.helm.sh/release-namespace: v1
   generation: 1
   labels:
     app: virtualcluster

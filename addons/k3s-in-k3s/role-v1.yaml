@@ -1,9 +1,6 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  annotations:
-    meta.helm.sh/release-name: v1
-    meta.helm.sh/release-namespace: v1
   labels:
     app: virtualcluster
   name: v1

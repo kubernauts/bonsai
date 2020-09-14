@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# check if required applications and files are available
+./dependency-check.sh
+
 nodeCount=2
 read -p  "How many worker nodes do you want?(default:2) promt with [ENTER]:" inputNode
 nodeCount="${inputNode:-$nodeCount}"

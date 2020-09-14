@@ -6,10 +6,6 @@ metadata:
     meta.helm.sh/release-namespace: v1
   labels:
     app: virtualcluster
-    app.kubernetes.io/managed-by: Helm
-    chart: virtualcluster-0.0.1-beta.23
-    heritage: Helm
-    release: v1
   name: v1
   namespace: v1
 rules:

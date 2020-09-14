@@ -1,0 +1,32 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    meta.helm.sh/release-name: v1
+    meta.helm.sh/release-namespace: arash
+  creationTimestamp: "2020-09-13T17:48:31Z"
+  labels:
+    app: virtualcluster
+    app.kubernetes.io/managed-by: Helm
+    chart: virtualcluster-0.0.1-beta.23
+    heritage: Helm
+    release: v1
+  name: vc-v1-v-v1
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - persistentvolumes
+  verbs:
+  - get
+  - watch
+  - list
+- apiGroups:
+  - storage.k8s.io
+  resources:
+  - storageclasses
+  verbs:
+  - get
+  - watch
+  - list

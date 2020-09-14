@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    meta.helm.sh/release-name: v1
+    meta.helm.sh/release-namespace: v1
+  generation: 1
+  labels:
+    app: virtualcluster
+    heritage: Helm
+    release: v1
+  name: v1
+  namespace: v1
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: virtualcluster
+      release: v1
+  serviceName: v1-headless
+  template:
+    metadata:
+      labels:
+        app: virtualcluster
+        release: v1
+    spec:
+      containers:
+      - args:
+        - server
+        - --write-kubeconfig=/k3s-config/kube-config.yaml
+        - --data-dir=/data
+        - --disable=traefik,servicelb,metrics-server,local-storage
+        - --disable-network-policy
+        - --disable-agent
+        - --disable-scheduler
+        - --disable-cloud-controller
+        - --flannel-backend=none
+        - --kube-controller-manager-arg=controllers=*,-nodeipam,-nodelifecycle,-persistentvolume-binder,-attachdetach,-persistentvolume-expander,-cloud-node-lifecycle
+        - --service-cidr=10.43.0.0/16
+        command:
+        - /bin/k3s
+        image: rancher/k3s:v1.18.6-k3s1
+        imagePullPolicy: IfNotPresent
+        name: virtual-cluster
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /data
+          name: data
+      - args:
+        - --service-name=v1
+        - --suffix=v1
+        - --owning-statefulset=v1
+        - --out-kube-config-secret=vc-v1
+        image: kubernautslabs/vc:latest
+        imagePullPolicy: IfNotPresent
+        name: syncer
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /data
+          name: data
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: vc-v1
+      serviceAccountName: vc-v1
+      terminationGracePeriodSeconds: 10
+  updateStrategy:
+    rollingUpdate:
+      partition: 0
+    type: RollingUpdate
+  volumeClaimTemplates:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      creationTimestamp: null
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+      volumeMode: Filesystem
+

@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  name: application-pipeline-run
+spec:
+  pipelineRef:
+    name: application-pipeline
+  resources:
+    - name: git-source
+      resourceRef:
+        name: git
+  params:
+    - name: pathToContext
+      value: "src"
+    - name: pathToYamlFile
+      value: "deploy.yaml"
+    - name: "imageUrl"
+      value: "private-docker-registry.kube-system:5000/app"
+    - name: "imageTag"
+      value: "0.0.1"
+  serviceAccountName: service-account

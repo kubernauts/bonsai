@@ -1,0 +1,12 @@
+apiVersion: tekton.dev/v1alpha1
+# apiVersion: tekton.dev/v1beta1
+kind: PipelineResource
+metadata:
+  name: git
+spec:
+  type: git
+  params:
+    - name: revision
+      value: master
+    - name: url
+      value: https://github.com/arashkaffamanesh/node-js-tekton

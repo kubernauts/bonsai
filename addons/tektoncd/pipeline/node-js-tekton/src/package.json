@@ -1,0 +1,25 @@
+{
+  "name": "node-js-tekton",
+  "version": "0.0.1",
+  "description": "Example Node.js Application with Tekton Pipeline",
+  "author": "Jonathan Johnson",
+  "license": "MIT",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.16.1",
+    "x-hub-signature": "^1.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "node-js-tekton"
+  },
+  "keywords": [
+    "cancer",
+    "tekton",
+    "kubernetes",
+    "node.js"
+  ]
+}

@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: service-a-b
+  annotations:
+    # kubernetes.io/ingress.class: nginx
+    # nginx.ingress.kubernetes.io/app-root: /ghost
+    # nginx.ingress.kubernetes.io/rewrite-target: "/"
+spec:
+  ingressClassName: "nginx"
+  rules:
+  - host: "srva.nginx.svc"
+    http:
+      paths:
+      - path: "/srva"
+        # pathType: "Prefix"
+        # pathType: ImplementationSpecific
+        pathType: Exact
+        backend:
+          serviceName: "nginx-a"
+          servicePort: 80
+  - host: "srvb.nginx.svc"
+    http:
+      paths:
+      - path: "/"
+        # pathType: Prefix
+        backend:
+          serviceName: nginx-b
+          servicePort: 80

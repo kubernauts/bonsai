@@ -1,0 +1,12 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: global-basic-auth
+  annotations:
+    kubernetes.io/ingress.class: kong
+    konghq.com/plugins: basic-auth
+  labels:
+    global: "true"
+config: 
+  hide_credentials: "false"
+plugin: basic-auth

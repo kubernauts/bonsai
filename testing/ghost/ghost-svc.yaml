@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: ghost
+  name: ghost
+  namespace: testing
+spec:
+  # loadBalancerIP: 84.200.100.230
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 2368
+  selector:
+    run: ghost
+  sessionAffinity: None
+  # type: LoadBalancer
+  type: ClusterIP

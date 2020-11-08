@@ -6,7 +6,7 @@ metadata:
   labels:
     run: ghost
   name: ghost
-  namespace: default
+  namespace: testing
 spec:
   replicas: 1
   selector:

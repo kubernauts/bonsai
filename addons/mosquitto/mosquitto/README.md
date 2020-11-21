@@ -8,7 +8,7 @@ https://chartcenter.io/t3n/mosquitto
 
 ```
 helm pull center/t3n/mosquitto
-tar -xvfz mosquitto-2.2.0.tgz
+tar xvfz mosquitto-2.2.0.tgz
 cd mosquitto
 ```
 

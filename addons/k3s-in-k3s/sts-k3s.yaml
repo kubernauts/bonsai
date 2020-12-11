@@ -80,10 +80,16 @@ spec:
     spec:
       accessModes:
       - ReadWriteOnce
+      # if using efs-sc StorageClass, e.g. for our IoT Messaging Platform
+      # - ReadWriteMany
       # k3s
       storageClassName: local-path
       # minikube
       # storageClassName: standard
+      # aws efs
+      # storageClassName: efs-sc
+      # aws gp2
+      # storageClassName: gp2
       resources:
         requests:
           storage: 5Gi

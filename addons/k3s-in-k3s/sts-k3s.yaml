@@ -80,8 +80,12 @@ spec:
     spec:
       accessModes:
       - ReadWriteOnce
+      # k3s
+      storageClassName: local-path
+      # minikube
+      # storageClassName: standard
       resources:
         requests:
           storage: 5Gi
-      volumeMode: Filesystem
+      # volumeMode: Filesystem
 

@@ -1,4 +1,4 @@
-# K3s in K3s on Bonsai or any Kubernetes Cluster (e.g. EKS or Minikube)
+# Running K3s in a namespace on Bonsai or on any Kubernetes Cluster (e.g. EKS or Minikube)
 
 With this simple implementation you can run K3s in one or more namespaces on any K8s Cluster as a Virtual Cluster, which helps us to save time, money and our planet and to become more productive in our daily work by CI/CD and many other use cases.
 

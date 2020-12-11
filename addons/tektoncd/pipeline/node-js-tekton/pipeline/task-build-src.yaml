@@ -1,0 +1,41 @@
+apiVersion: tekton.dev/v1alpha1
+# apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-image-from-source
+spec:
+  inputs:
+    resources:
+      - name: git-source
+        type: git
+    params:
+      - name: pathToContext
+        description: The path to the build context, used by Kaniko - within the workspace
+        default: .
+      - name: pathToDockerfile
+        description: The path to the Dockerfile to build
+        default: Dockerfile
+      - name: imageUrl
+        description: value should be like - us.icr.io/test_namespace/builtImageApp
+      - name: imageTag
+        description: Tag to apply to the built image
+  steps:
+    - name: list-src
+      image: alpine
+      command:
+        - "ls"
+      args:
+        - "$(inputs.resources.git-source.path)"
+    - name: build-and-push
+      image: gcr.io/kaniko-project/executor
+      command:
+        - /kaniko/executor
+      args:
+        - "--dockerfile=$(inputs.params.pathToDockerfile)"
+        - "--destination=$(inputs.params.imageUrl):$(inputs.params.imageTag)"
+        - "--context=$(inputs.resources.git-source.path)/$(inputs.params.pathToContext)/"
+        - "--insecure"
+        - "--insecure-pull"
+        - "--skip-tls-verify"
+        - "--skip-tls-verify-pull"
+

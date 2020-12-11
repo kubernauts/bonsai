@@ -1,0 +1,54 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx-index-a
+data:
+  index.html: |-
+    {"Das ist Service A"}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-a
+spec:
+  selector:
+    matchLabels:
+      app: nginx-a
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx-a
+    spec:
+      containers:
+      - name: nginx-a
+        image: nginx
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: index-volume
+      volumes:
+      - name: index-volume
+        configMap:
+          name: nginx-index-a
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-a
+  labels:
+    app: nginx-a
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: plain-http
+  selector:
+    app: nginx-a
+  # type: LoadBalancer

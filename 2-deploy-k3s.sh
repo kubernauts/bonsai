@@ -3,11 +3,14 @@ GREEN='\033[0;32m'
 LB='\033[1;34m' # light blue
 NC='\033[0m' # No Color
 
+K3S_VERSION=v1.19.3+k3s1
+
 echo "############################################################################"
 echo "Now deploying k3s on multipass VMs"
+echo "############################################################################"
 
 echo -e "[${LB}Info${NC}] deploy k3s on k3s-master"
-multipass exec k3s-master -- /bin/bash -c "curl -sfL https://get.k3s.io | sh -" | grep Using
+multipass exec k3s-master -- /bin/bash -c "curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=${K3S_VERSION} sh -" | grep Using
 # Get the IP of the master node
 K3S_NODEIP_MASTER="https://$(multipass info k3s-master | grep "IPv4" | awk -F' ' '{print $2}'):6443"
 # Get the TOKEN from the master node
@@ -16,7 +19,7 @@ K3S_TOKEN="$(multipass exec k3s-master -- /bin/bash -c "sudo cat /var/lib/ranche
 
 WORKERS=$(echo $(multipass list | grep worker | awk '{print $1}'))
 for WORKER in ${WORKERS}; 
-do echo -e "[${LB}Info${NC}] deploy k3s on ${WORKER}" && multipass exec ${WORKER} -- /bin/bash -c "curl -sfL https://get.k3s.io | K3S_TOKEN=${K3S_TOKEN} K3S_URL=${K3S_NODEIP_MASTER} sh -" | grep -w "Using"; 
+do echo -e "[${LB}Info${NC}] deploy k3s on ${WORKER}" && multipass exec ${WORKER} -- /bin/bash -c "curl -sfL https://get.k3s.io | K3S_TOKEN=${K3S_TOKEN} K3S_URL=${K3S_NODEIP_MASTER} INSTALL_K3S_VERSION=${K3S_VERSION} sh -" | grep -w "Using"; 
 done
 sleep 10
 

@@ -1,6 +1,6 @@
-# Running K3s in a namespace on Bonsai or on any Kubernetes Cluster (e.g. EKS or Minikube)
+# Running K3s in a namespace on any Kubernetes Cluster (e.g. in K3s, EKS or Minikube)
 
-With this simple implementation you can run K3s in one or more namespaces on any K8s Cluster as a Virtual Cluster, which helps us to save time, money and our planet and to become more productive in our daily work by CI/CD and many other use cases.
+With this simple implementation you can run fully isolated K3s cluster in one or more namespaces on any K8s Cluster as a Virtual Cluster, which helps us to save time, money and our planet and to become more productive in our daily work by CI/CD and many other use cases.
 
 Imagine: you can run your dev / qa and stage clusters in seperate namespaces on a single cluster, how many idle clusters can you delete afterwards?
 

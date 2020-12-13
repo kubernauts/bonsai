@@ -34,7 +34,7 @@ If using minikube or EKS or whatever k8s cluster, you'd need to set the right `s
       # storageClassName: gp2
 ```
 
-AND set the right service-cidr of your k8s cluster in `sts-k3s.yaml`
+AND set the right service-cidr of your k8s cluster in `sts-k3s.yaml`.
 
 ```
         - --service-cidr=10.43.0.0/16

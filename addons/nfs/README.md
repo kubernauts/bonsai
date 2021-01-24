@@ -1,9 +1,13 @@
 ## Using external NFS Server with NFS Subdir External Provisioner on k3s k8s 1.20
 
-Deploy k3s from the root directory of this repo on multipass VMs.
+Sometimes we need shared storage with Read-Write-Many (RWX) capability for development on our local machine. At this time of writing the NFS external provisioner didn't work on k8s 1.20, I'd to build a new image to get t working.
+
+Here we go:
+
+Deploy k3s from the root directory of this repo on multipass VMs and install nfs utils on the workers.
 
 ```
-./deploy-bonsai.yaml
+./deploy-bonsai.sh
 ## shell into worker nodes and install nfs-common utils
 multipass shell k3s-worker1 (or k3s-worker2)
 sudo apt update
@@ -44,8 +48,7 @@ ubuntu@nfs-server:~$ sudo exportfs
 
 ### Deploy nfs-client-provisioner
 
-Adapt the NFS Server IP address in `deplyoment.yaml`:
-
+Adapt the NFS Server IP address in `deployment.yaml`:
 
 ```
           env:
@@ -66,6 +69,7 @@ And deploy the `nfs-client-provsioner`, the `managed-nfs-storage` StorageClass, 
 
 ```
 k apply -f .
+k get pods
 k get pvc
 k get pv
 ```

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog
+  labels:
+    app: blog
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: blog
+  template:
+    metadata:
+      labels:
+        app: blog
+    spec:
+      containers:
+      - name: blog
+        image: ghost:2.28-alpine
+        # imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 2368
+        env:
+        - name: url
+          value: http://my-blog.com
+        - name: PROVISIONER_NAME
+          value: fuseim.pri/ifs
+        - name: NFS_SERVER
+          value: 192.168.64.26
+        - name: NFS_PATH
+          # value: /var/nfs/general
+          value: /home/ubuntu/nfs
+        volumeMounts:
+        - mountPath: /home/ubuntu/nfs
+          name: content
+      volumes:
+       - name: content
+         persistentVolumeClaim:
+           claimName: ghost-pv-claim

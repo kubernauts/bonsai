@@ -1,7 +1,8 @@
 # changed 
 # replicaCount: 1
 replicaCount: 2
-strategyType: Recreate
+# strategyType: Recreate
+strategyType: RollingUpdate
 
 image:
   repository: eclipse-mosquitto
@@ -20,7 +21,9 @@ serviceAccount:
   name:
 
 service:
-  type: ClusterIP
+  # changed
+  # type: ClusterIP
+  type: LoadBalancer
   annotations: {}
     # metallb.universe.tf/allow-shared-ip: pi-hole
 
@@ -34,7 +37,9 @@ ports:
 
 persistence:
   enabled: true
-  accessMode: ReadWriteOnce
+  # accessMode: ReadWriteOnce
+  # read write many needs nfs, see nfs under addons 
+  accessMode: ReadWriteMany
   existingClaim: ""
   mountPath: /mosquitto/data
   subPath: ""
@@ -46,7 +51,8 @@ persistence:
   ##   GKE, AWS & OpenStack)
   ##
   # changed
-  storageClass: "local-path"
+  # storageClass: "local-path"
+  storageClass: "managed-nfs-storage"
   size: 10Gi
 
 resources: {}
@@ -86,14 +92,15 @@ tolerations: []
 affinity: {}
 
 authentication:
-  # passwordEntries: ""
+  # changed for no auth
+  passwordEntries: ""
   # To use authentication with mosquitto, you can set a list of password entries to be used.
   # reference https://mosquitto.org/man/mosquitto_passwd-1.html to generate these entries.
   # For example: mosquitto_passwd -b passwordfile mqtt-user MqttPassW0rd
-  passwordEntries: |-
-     mqtt-user:$6$zJtl+uKs27iMpotH$wDX7YDX0H+uJqgpLET+O5Dk//soEjWpErkzjcjVWQsT0bdnNBFoMyPC02aDhKUe93KQNdt2OLLmD7rwxzZGIZg==
+  # passwordEntries: |-
+  #   mqtt-user:$6$zJtl+uKs27iMpotH$wDX7YDX0H+uJqgpLET+O5Dk//soEjWpErkzjcjVWQsT0bdnNBFoMyPC02aDhKUe93KQNdt2OLLmD7rwxzZGIZg==
   #   user2:$6$b5vYuHrSLj48Ii32$NjlbnatIaUQSsNvxxTpawpav6NPyZ8QhGrdEVGtyU1rgEGjNzVGKlstRg29FV6MFTPs/ugPA8D5I5+qRcIMXSg==
-  passwordFilePath: "/etc/mosquitto/passwordfile"
+  # passwordFilePath: "/etc/mosquitto/passwordfile"
 
 authorization:
   acls: ""
@@ -134,7 +141,7 @@ extraVolumeMounts: []
 
 
 ingress:
-  enabled: true
+  enabled: false
   annotations:
     kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # check if required applications and files are available
-./dependency-check.sh
+./utils/dependency-check.sh
 
 nodeCount=2
 read -p  "How many worker nodes do you want?(default:2) promt with [ENTER]:" inputNode
@@ -28,7 +28,7 @@ for NODE in ${NODES}; do multipass launch --name ${NODE} --cpus ${cpuCount} --me
 sleep 5
 
 # create hosts files for multipass vms and cluster access with local environment
-./create-hosts.sh
+./utils/create-hosts.sh
 
 echo "We need to write the host entries on your local machine to /etc/hosts"
 echo "Please provide your sudo password:"

@@ -6,6 +6,8 @@ NODES+=$MASTER
 NODES+=" "
 NODES+=$WORKERS
 
+cd ..
+
 cp /etc/hosts hosts.backup
 cp /etc/hosts hosts.local
 rm hosts.cleanup.backup

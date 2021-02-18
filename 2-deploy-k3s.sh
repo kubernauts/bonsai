@@ -43,5 +43,7 @@ kubectl get nodes
 
 echo "are the nodes ready?"
 echo "if you face problems, please open an issue on github"
-echo -e "[${GREEN}Now deploying MetalLB LoadBalancer${NC}]"
+
+echo "############################################################################"
+echo -e "[${GREEN}Success k3s deployment rolled out${NC}]"
 echo "############################################################################"

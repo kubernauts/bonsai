@@ -28,6 +28,7 @@ kubectl -n cattle-system rollout status deploy/rancher
 
 echo "Exposing Rancher deployment with loadbalancer service"
 kubectl expose deployment rancher --type=LoadBalancer --name=rancher -n cattle-system
+kubectl get svc rancher -n cattle-system
 
 echo "############################################################################"
 echo -e "[${GREEN}Success rancher deployment rolled out${NC}]"

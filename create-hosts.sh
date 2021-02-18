@@ -6,25 +6,33 @@ NODES+=$MASTER
 NODES+=" "
 NODES+=$WORKERS
 
-# seach for existing multipass config
-exists=$(grep -n "####### multipass hosts start ##########" hosts | awk -F: '{print $1}' | head -1)
-# check if var is empty
-if test -z "$exists" 
-then
-  exists=0
-fi
+cp /etc/hosts hosts.backup
+cp /etc/hosts hosts.local
+rm hosts.cleanup.backup
 
-# cut existing config
-if (("$exists" > "0")) ; then
-  start=$(grep -n "####### multipass hosts start ##########" hosts | awk -F: '{print $1}' | head -1)
-  ((start=start-1))
-  end=$(grep -n "####### multipass hosts end   ##########" hosts | awk -F: '{print $1}' | head -1)
-  sed -i '' ${start},${end}d hosts.local
-fi
-# replace with new config
-FILES=('hosts' 'hosts.local')
+# make new hosts file for multipase vms
+touch hosts.vm
+
+FILES=('hosts.vm' 'hosts.local')
 for f in "${FILES[@]}"
 do
+  # seach for existing multipass config
+  exists=$(grep -n "####### multipass hosts start ##########" ${f} | awk -F: '{print $1}' | head -1)
+  # check if var is empty
+  if test -z "$exists" 
+  then
+    exists=0
+  fi
+
+  # cut existing config
+  if (("$exists" > "0")) ; then
+    start=$(grep -n "####### multipass hosts start ##########" ${f} | awk -F: '{print $1}' | head -1)
+    ((start=start-1))
+    end=$(grep -n "####### multipass hosts end   ##########" ${f} | awk -F: '{print $1}' | head -1)
+    sed -i '' ${start},${end}d ${f}
+  fi
+  
+  # replace with new config
   echo "" >> ${f}
   echo "####### multipass hosts start ##########" >> ${f}
 

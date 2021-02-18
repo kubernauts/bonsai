@@ -1,8 +1,10 @@
-etchosts
-etchosts.unix
+# files to ignore
+.DS_Store
 k3s.yaml
 k3s.yaml.back
-hosts
+hosts.local
 hosts.backup
 hosts.cleanup.backup
-addons/.DS_Store
+
+# folders to ignore 
+addons/

@@ -16,7 +16,7 @@ cleanupAnsw="${input:-$cleanupAnsw}"
 if [ $cleanupAnsw == 'y' ];
 then
   # seach for existing multipass config
-  exists=$(grep -n "####### multipass hosts start ##########" hosts | awk -F: '{print $1}' | head -1)
+  exists=$(grep -n "####### multipass hosts start ##########" hosts.local | awk -F: '{print $1}' | head -1)
   # check if var is empty
   if test -z "$exists" 
   then
@@ -28,19 +28,19 @@ then
 
     # backup before cleanup
     cp /etc/hosts hosts.cleanup.backup
-    cp hosts.cleanup.backup hosts
+    cp hosts.cleanup.backup hosts.local
   fi
 
   # cut existing config
   if (("$exists" > "0")) ; then
-    start=$(grep -n "####### multipass hosts start ##########" hosts | awk -F: '{print $1}' | head -1)
+    start=$(grep -n "####### multipass hosts start ##########" hosts.local | awk -F: '{print $1}' | head -1)
     ((start=start-1))
-    end=$(grep -n "####### multipass hosts end   ##########" hosts | awk -F: '{print $1}' | head -1)
-    sed -i '' ${start},${end}d hosts
+    end=$(grep -n "####### multipass hosts end   ##########" hosts.local | awk -F: '{print $1}' | head -1)
+    sed -i '' ${start},${end}d hosts.local
   fi
 
-  # cp cleaned hosts to /etc/hosts
-  cp hosts /etc/hosts
+  # copy cleaned hosts to /etc/hosts
+  cp hosts.local /etc/hosts
 fi
 
 # Stop then delete nodes
@@ -48,7 +48,7 @@ for NODE in ${NODES}; do multipass stop ${NODE} && multipass delete ${NODE}; don
 # Free discspace
 multipass purge
 
-rm hosts hosts.backup k3s.yaml.back k3s.yaml get_helm.sh  etchosts.unix 2> /dev/null
+rm hosts.local hosts.backup k3s.yaml.back k3s.yaml get_helm.sh 2> /dev/null
 echo -e "[${GREEN}FINISHED${NC}]"
 echo "############################################################################"
 echo -e "[${LB}Info${NC}] Please cleanup the host entries in your /etc/hosts manually"

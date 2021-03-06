@@ -1,0 +1,12 @@
+#cloud-config
+#
+# This is an example file to automatically configure resolv.conf when the
+# instance boots for the first time.
+#
+# Ensure that your yaml is valid and pass this as user-data when starting
+# the instance. Also be sure that your cloud.cfg file includes this
+# configuration module in the appropriate section.
+
+bootcmd:
+- printf "[Resolve]\nDNS=8.8.8.8" > /etc/systemd/resolved.conf
+- [systemctl, restart, systemd-resolved]

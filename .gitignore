@@ -5,6 +5,7 @@ k3s.yaml.back
 hosts.local
 hosts.backup
 hosts.cleanup.backup
+k8sversion
 
 # folders to ignore 
 addons/

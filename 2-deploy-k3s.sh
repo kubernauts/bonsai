@@ -3,8 +3,9 @@ GREEN='\033[0;32m'
 LB='\033[1;34m' # light blue
 NC='\033[0m' # No Color
 
-#K3S_VERSION=v1.19.3+k3s1
-K3S_VERSION=v1.20.0+k3s2
+K3S_VERSION="v"$(cat k8sversion)"+k3s1"
+echo "version" $K3S_VERSION "ist gesetzt"
+rm k8sversion
 
 echo "############################################################################"
 echo "Now deploying k3s on multipass VMs"

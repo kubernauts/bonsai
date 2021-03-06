@@ -4,17 +4,21 @@
 ./utils/dependency-check.sh
 
 nodeCount=2
-read -p  "How many worker nodes do you want?(default:2) promt with [ENTER]:" inputNode
+read -p  "How many worker nodes do you want?(default:$nodeCount) promt with [ENTER]:" inputNode
 nodeCount="${inputNode:-$nodeCount}"
 cpuCount=2
-read -p  "How many cpus do you want per node?(default:2) promt with [ENTER]:" inputCpu
+read -p  "How many cpus do you want per node?(default:$cpuCount) promt with [ENTER]:" inputCpu
 cpuCount="${inputCpu:-$cpuCount}"
 memCount=4
-read -p  "How many gigabyte memory do you want per node?(default:4) promt with [ENTER]:" inputMem
+read -p  "How many gigabyte memory do you want per node?(default:$memCount) promt with [ENTER]:" inputMem
 memCount="${inputMem:-$memCount}"
 diskCount=10
-read -p  "How many gigabyte diskspace do you want per node?(default:10) promt with [ENTER]:" inputDisk
+read -p  "How many gigabyte diskspace do you want per node?(default:$diskCount) promt with [ENTER]:" inputDisk
 diskCount="${inputDisk:-$diskCount}"
+k8sversion=1.19.8
+read -p  "Which k8s version do you want to use? check https://github.com/k3s-io/k3s/releases (default:$k8sversion) promt with [ENTER]:" inputK8Sversion
+k8sversion="${inputK8Sversion:-$k8sversion}"
+echo $k8sversion > k8sversion
 
 MASTER=$(echo "k3s-master ") && WORKER=$(eval 'echo k3s-worker{1..'"$nodeCount"'}')
 
@@ -27,7 +31,7 @@ for NODE in ${NODES}; do multipass launch --name ${NODE} --cpus ${cpuCount} --me
 # Wait a few seconds for nodes to be up
 sleep 5
 
-# create hosts files for multipass vms and cluster access with local environment
+# # create hosts files for multipass vms and cluster access with local environment
 ./utils/create-hosts.sh
 
 echo "We need to write the host entries on your local machine to /etc/hosts"

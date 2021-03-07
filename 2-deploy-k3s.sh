@@ -5,7 +5,7 @@ NC='\033[0m' # No Color
 
 K3S_VERSION="v"$(cat k8sversion)"+k3s1"
 echo "version" $K3S_VERSION "ist gesetzt"
-# rm k8sversion
+rm k8sversion
 
 echo "############################################################################"
 echo "Now deploying k3s on multipass VMs"
@@ -14,7 +14,7 @@ echo "##########################################################################
 echo -e "[${LB}Info${NC}] deploy k3s on k3s-master"
 # multipass exec k3s-master -- /bin/bash -c "curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=${K3S_VERSION} sh -" | grep Using
 # disable traefik
-multipass exec k3s-master -- /bin/bash -c "curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=${K3S_VERSION} INSTALL_K3S_EXEC="--disable=traefik" sh -"
+multipass exec k3s-master -- /bin/bash -c "curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=${K3S_VERSION} INSTALL_K3S_EXEC="--disable=traefik" sh -"  | grep -w "Using";
 # Get the IP of the master node
 K3S_NODEIP_MASTER="https://$(multipass info k3s-master | grep "IPv4" | awk -F' ' '{print $2}'):6443"
 # Get the TOKEN from the master node

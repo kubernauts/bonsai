@@ -33,6 +33,8 @@ multipass exec k3s-master -- bash -c 'sudo cat /etc/rancher/k3s/k3s.yaml' > k3s.
 sed -i'.back' -e 's/127.0.0.1/k3s-master/g' k3s.yaml
 export KUBECONFIG=`pwd`/k3s.yaml && echo -e "[${LB}Info${NC}] setting KUBECONFIG=${KUBECONFIG}"
 
+kubectl config rename-context default k3s-multipass
+
 echo -e "[${LB}Info${NC}] tainting master node: k3s-master"
 kubectl taint node k3s-master node-role.kubernetes.io/master=effect:NoSchedule
 

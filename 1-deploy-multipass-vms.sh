@@ -15,7 +15,8 @@ memCount="${inputMem:-$memCount}"
 diskCount=10
 read -p  "How many gigabyte diskspace do you want per node?(default:$diskCount) promt with [ENTER]:" inputDisk
 diskCount="${inputDisk:-$diskCount}"
-k8sversion=1.19.8
+# k8sversion=1.19.8
+k8sversion=1.20.7
 read -p  "Which k8s version do you want to use? check https://github.com/k3s-io/k3s/releases (default:$k8sversion) promt with [ENTER]:" inputK8Sversion
 k8sversion="${inputK8Sversion:-$k8sversion}"
 echo $k8sversion > k8sversion

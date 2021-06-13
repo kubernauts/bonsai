@@ -11,6 +11,7 @@ res1=$(date +%s)
 ./1-deploy-multipass-vms.sh
 ./2-deploy-k3s.sh
 ./9-install-metal-lb.sh
+./11-deploy-ingress-nginx.sh
 
 # get end timestamp
 res2=$(date +%s)

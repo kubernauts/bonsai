@@ -38,6 +38,8 @@ kubectl config rename-context default k3s-multipass
 echo -e "[${LB}Info${NC}] tainting master node: k3s-master"
 kubectl taint node k3s-master node-role.kubernetes.io/master=effect:NoSchedule
 
+sleep 3
+
 for WORKER in ${WORKERS}; do kubectl label node ${WORKER} node-role.kubernetes.io/node=  > /dev/null && echo -e "[${LB}Info${NC}] label ${WORKER} with node"; done
 
 sleep 10

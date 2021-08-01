@@ -8,4 +8,4 @@ hosts.cleanup.backup
 k8sversion
 
 # folders to ignore 
-addons/
+# addons/

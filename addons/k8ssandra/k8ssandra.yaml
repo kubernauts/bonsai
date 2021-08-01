@@ -1,0 +1,31 @@
+cassandra:
+  version: "3.11.10"
+  cassandraLibDirVolume:
+    storageClass: local-path
+    size: 5Gi
+  allowMultipleNodesPerWorker: true
+  heap:
+    size: 1G
+    newGenSize: 1G
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 2Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+  datacenters:
+  - name: dc1
+    size: 1
+    racks:
+    - name: default 
+kube-prometheus-stack:
+  grafana:
+    adminUser: admin
+    adminPassword: admin123 
+stargate:
+  enabled: true
+  replicas: 1
+  heapMB: 512
+  cpuReqMillicores: 1000
+  cpuLimMillicores: 2000

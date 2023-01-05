@@ -40,13 +40,13 @@ You need kubectl in your path, if not, you can download the v1.17.4 version and 
 MacOS users:
 
 ```bash
-curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.21.3/bin/darwin/amd64/kubectl
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.24.9/bin/darwin/amd64/kubectl
 ```
 
 Linux users:
 
 ```bash
-curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.21.3/bin/linux/amd64/kubectl
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.24.9/bin/linux/amd64/kubectl
 ```
 
 ```bash

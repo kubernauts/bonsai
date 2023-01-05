@@ -7,5 +7,5 @@ echo -e "[${GREEN}Deploying Nginx Ingress Controller${NC}]"
 echo "############################################################################"
 
 export KUBECONFIG=`pwd`/k3s.yaml
-kubectl create ns ingress-nginx
+# kubectl create ns ingress-nginx
 kubectl create -f addons/ingress-nginx/deploy.yaml

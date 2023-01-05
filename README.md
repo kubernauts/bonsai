@@ -1,6 +1,6 @@
 # Bonsai Kube: k3s on multipass VMs on your local machine
 
-Latest version: Kubernetes 1.21.3
+Latest version: Kubernetes 1.24.9 (v1.24.9+k3s1)
 
 ![multipass-k3s.png](multipass-k3s.png)
 
@@ -54,9 +54,9 @@ chmod +x ./kubectl
 mv kubectl /usr/local/bin/
 ```
 
-### Important hint for linux users
+### Important hint for MacOS Intel and Linux users
 
-Linux users should adapt the `create-hosts.sh` and adapt the network interface name. You can find the nic name with:
+MacOS Intel and Linux users should adapt the `utlis/create-hosts.sh` and adapt the network interface name `enp0s1` (which is apparently the default nic name of multipass VMs on M2 Silicon MacOS). You can find the nic name with:
 
 ```bash
 multipass launch --name test

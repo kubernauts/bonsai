@@ -3,8 +3,8 @@ GREEN='\033[0;32m'
 LB='\033[1;34m' # light blue
 NC='\033[0m' # No Color
 
-MASTER=$(echo $(multipass list | grep master | awk '{print $1}'))
-WORKERS=$(echo $(multipass list | grep worker | awk '{print $1}'))
+MASTER=$(echo $(multipass list | grep k3s-master | awk '{print $1}'))
+WORKERS=$(echo $(multipass list | grep k3s-worker | awk '{print $1}'))
 NODES+=$MASTER
 NODES+=" "
 NODES+=$WORKERS

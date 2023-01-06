@@ -37,7 +37,7 @@ do
   echo "####### multipass hosts start ##########" >> ${f}
 
   for NODE in ${NODES}; do
-    multipass exec ${NODE} -- bash -c 'echo `ip -4 addr show enp0s1 | grep -oP "(?<=inet ).*(?=/)"` `echo $(hostname)`' >> ${f}
+    multipass exec ${NODE} -- bash -c 'echo `ip -4 addr | grep 192.168 | grep -oP "(?<=inet ).*(?=/)"` `echo $(hostname)`' >> ${f}
   done
 
   echo "####### multipass hosts end   ##########" >> ${f}

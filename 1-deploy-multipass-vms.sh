@@ -20,7 +20,8 @@ diskCount="${inputDisk:-$diskCount}"
 # k8sversion=1.21.3
 #k8sversion=1.24.9
 k8sversion=1.25.10
-read -p  "Which k8s version do you want to use? check https://github.com/k3s-io/k3s/releases (default:$k8sversion) promt with [ENTER]:" inputK8Sversion
+#k8sversion=1.26.5
+read -p  "Which k8s version do you want to use? check https://github.com/k3s-io/k3s/releases (default:$k8sversion, also possible: 1.26.5) promt with [ENTER]:" inputK8Sversion
 k8sversion="${inputK8Sversion:-$k8sversion}"
 echo $k8sversion > k8sversion
 

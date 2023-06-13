@@ -1,6 +1,6 @@
 # Bonsai Kube: k3s on multipass VMs on your local machine
 
-Latest version: Kubernetes 1.24.9 (v1.24.9+k3s1)
+Latest version: Kubernetes 1.25.10 (v1.25.10+k3s1)
 
 ![multipass-k3s.png](multipass-k3s.png)
 

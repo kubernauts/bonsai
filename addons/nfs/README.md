@@ -18,7 +18,7 @@ sudo apt install nfs-common
 Launch a new nfs-server VM:
 
 ```
-multipass launch --name nfs-server --cpus 2 --mem 2G --disk 10G;
+multipass launch --name nfs-server --cpus 2 --memory 2G --disk 10G;
 ```
 
 ### Install NFS Kernel Server

@@ -3,7 +3,7 @@
 NODES=$(echo rke{1..3})
 
 # Create containers
-for NODE in ${NODES}; do multipass launch --name ${NODE} --cpus 2 --mem 2G --disk 8G; done
+for NODE in ${NODES}; do multipass launch --name ${NODE} --cpus 2 --memory 2G --disk 8G; done
 
 # Wait a few seconds for nodes to be up
 sleep 5

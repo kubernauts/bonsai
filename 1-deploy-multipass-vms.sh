@@ -31,7 +31,7 @@ NODES+=$MASTER
 NODES+=$WORKER
 
 # Create containers
-for NODE in ${NODES}; do multipass launch --name ${NODE} --cpus ${cpuCount} --mem ${memCount}G --disk ${diskCount}G --cloud-init cloud-config.yaml; done
+for NODE in ${NODES}; do multipass launch --name ${NODE} --cpus ${cpuCount} --memory ${memCount}G --disk ${diskCount}G --cloud-init cloud-config.yaml; done
 
 # Wait a few seconds for nodes to be up
 sleep 5

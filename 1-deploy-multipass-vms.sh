@@ -12,16 +12,11 @@ cpuCount="${inputCpu:-$cpuCount}"
 memCount=4
 read -p  "How many gigabyte memory do you want per node?(default:$memCount) promt with [ENTER]:" inputMem
 memCount="${inputMem:-$memCount}"
-diskCount=10
+diskCount=20
 read -p  "How many gigabyte diskspace do you want per node?(default:$diskCount) promt with [ENTER]:" inputDisk
 diskCount="${inputDisk:-$diskCount}"
-# k8sversion=1.19.8
-# k8sversion=1.20.7
-# k8sversion=1.21.3
-#k8sversion=1.24.9
-k8sversion=1.25.10
-#k8sversion=1.26.5
-read -p  "Which k8s version do you want to use? check https://github.com/k3s-io/k3s/releases (default:$k8sversion, also possible: 1.26.5) promt with [ENTER]:" inputK8Sversion
+k8sversion=1.27.11
+read -p  "Which k8s version do you want to use? check https://github.com/k3s-io/k3s/releases (default: $k8sversion, 1.28.7, 1.29.2) promt with [ENTER]:" inputK8Sversion
 k8sversion="${inputK8Sversion:-$k8sversion}"
 echo $k8sversion > k8sversion
 
@@ -31,7 +26,7 @@ NODES+=$MASTER
 NODES+=$WORKER
 
 # Create containers
-for NODE in ${NODES}; do multipass launch --name ${NODE} --cpus ${cpuCount} --memory ${memCount}G --disk ${diskCount}G --cloud-init cloud-config.yaml; done
+for NODE in ${NODES}; do multipass launch --name ${NODE} --cpus ${cpuCount} --memory ${memCount}G --disk ${diskCount}G --cloud-init cloud-config.yaml ; done
 
 # Wait a few seconds for nodes to be up
 sleep 5
